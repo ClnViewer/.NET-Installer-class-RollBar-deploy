@@ -1,5 +1,5 @@
 # .NET Installer class + RollBar deploy
-MSI .NET Installer class Custom action + RollBar deploy
+MSI .NET Installer class: Custom action + RollBar deploy
 
 use Debug predefined variable to show action in log:
 * event Commit __DEBUGVAR_Commit__

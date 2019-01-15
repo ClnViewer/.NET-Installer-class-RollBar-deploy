@@ -9,3 +9,10 @@ use Debug predefined variable to show action in log:
 * event Uninstall __DEBUGVAR_Uninstall__
 * event Rollback __DEBUGVAR_Rollback__
 * event Deploy RollBar (POST data) __DEBUGVAR_Deploy__
+
+## Location:
+
+`BaseProjectDir/MyApp/PropertiesAssemblyInfo.tt` - you application project
+`BaseProjectDir/AppInstaller/DeployUninstall/DeployUninstall.cs` - you uninstall project
+`BaseProjectDir/AppInstaller/InstallerDeployCustom/InstallerDeployCustom.cs` - you InstallerDeploy action library
+

@@ -20,19 +20,27 @@
 	svnProcess.StartInfo.UseShellExecute = false;
 	svnProcess.Start();
 
-	string svnResult = svnProcess.StandardOutput.ReadToEnd();
+	string src = svnProcess.StandardOutput.ReadToEnd();
 	svnProcess.WaitForExit();
 
+	if (String.IsNullOrWhiteSpace(src))
+	   throw new Exception("svn exec result understand");
+
 	Regex patSvnRevision = new Regex("Last Changed Rev: (?<svnrev>\\d+)");
-	MatchCollection matchSvnRevision = patSvnRevision.Matches(svnResult);
-	SvnRevision = Convert.ToInt32(matchSvnRevision[0].Groups["svnrev"].Value);
+	MatchCollection matchSvnRevision = patSvnRevision.Matches(src);
+	if (matchSvnRevision.Count > 0)
+	{
+	    SvnRevision = Convert.ToInt32(matchSvnRevision[0].Groups["svnrev"].Value);
+	}
 
 	Regex patSvnDate = new Regex("Last Changed Date: (?<svndate>.*)");
-	MatchCollection matchSvnDate = patSvnDate.Matches(svnResult);
-	svnDate     = matchSvnDate[0].Groups["svndate"].Value;
-	svnDate.TrimEnd(new char[] { ' ', '\t', '\r', '\n' });
-	svnDate = svnDate.Substring(0, (svnDate.Length - 1));
-
+	MatchCollection matchSvnDate = patSvnDate.Matches(src);
+	if (matchSvnDate.Count > 0)
+	{
+                svnDate = matchSvnDate[0].Groups["svndate"].Value;
+		svnDate.TrimEnd(new char[] { ' ', '\t', '\r', '\n' });
+		svnDate = svnDate.Substring(0, (svnDate.Length - 1));
+	}
     } catch( Exception ) {}
 	
     try {
@@ -40,15 +48,43 @@
     } catch( Exception ) {}
 
     try {
+	string src = String.Empty;
+	string fname = Path.Combine(cwd, "AssemblyInfo.cs");
+	if (File.Exists(fname))
+	{
+	    src = File.ReadAllText(fname, Encoding.GetEncoding(1251));
+	}
+	else
+	{
+	    fname =  Path.Combine(cwd, "AssemblyInfo1.cs");
+	}
+	if ((src == String.Empty) && (File.Exists(fname)))
+	{
+	    src = File.ReadAllText(fname, Encoding.GetEncoding(1251));
+	}
+	if (src == String.Empty)
+	    throw new Exception("bad path to AssemblyInfo");
+
+	Regex patAppName = new Regex("AssemblyTitle\\(\"(?<appname>.*)\"\\)");
+	MatchCollection matchAppName = patAppName.Matches(src);
+	if (matchAppName.Count > 0)
+	{
+	    appName = matchAppName[0].Groups["appname"].Value;
+	}
+    } catch( Exception) { throw; }
+
+    try {
 	File.WriteAllText(
 		"..\\AppInstaller\\InstallerDeployLib\\AppVersionInfo.cs",
 		String.Format(
 			"\nnamespace InstallerDeployLib\n{{\n\t" +
 			"public class AppVersionInfo {{\n\t\t" +
-			"public const string xAppVersion = \"{0}.{1}.{2}\";\n\t\t" +
-			"public const string xAppRevision = \"{3}\";\n\t\t" +
-			"public const string xAppDateBuild = \"{4}\";\n\t" +
+			"public const string xAppExecutable = \"{0}.exe\";\n\t\t" +
+			"public const string xAppVersion = \"{1}.{2}.{3}\";\n\t\t" +
+			"public const string xAppRevision = \"{4}\";\n\t\t" +
+			"public const string xAppDateBuild = \"{5}\";\n\t" +
 			"}}\n}}\n",
+			appName,
 			BaseVersion, MajorVersion, MinorVersion, SvnRevision,
 			DateTime.Now.ToShortDateString()
 		)
@@ -119,4 +155,5 @@ using System.Windows;
 	int MinorVersion = 0;
 	int SvnRevision = 0;
 	string svnDate = String.Empty;
+	string appName = String.Empty;
 #>

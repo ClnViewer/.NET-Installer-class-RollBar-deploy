@@ -71,7 +71,6 @@ namespace InstallerDeployLib
     public partial class InstallerDeployLib : System.Configuration.Install.Installer
     {
         private const string __log = "intaller_VariableDebug.log";
-        private const string __exe = "YouExecutable.exe";
         private const string __tag = "xTargetDir";
         private const string __rltoken = "You-RollBar-Id";
         private const string __rlurl = "https://api.rollbar.com/api/1/deploy/";
@@ -125,7 +124,7 @@ namespace InstallerDeployLib
             Process app = null;
             foreach (var process in Process.GetProcesses())
             {
-                if (!process.ProcessName.ToLower().Contains(Path.GetFileNameWithoutExtension(__exe)))
+                if (!process.ProcessName.ToLower().Contains(Path.GetFileNameWithoutExtension(AppVersionInfo.xAppExecutable)))
                     continue;
 
                 app = process;
@@ -174,7 +173,7 @@ namespace InstallerDeployLib
                     Path.GetDirectoryName(
                         Context.Parameters[__tag].ToString()
                     ),
-                    __exe
+                    AppVersionInfo.xAppExecutable
                 );
 
 #if DEBUGVAR_Committed

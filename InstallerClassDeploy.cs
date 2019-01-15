@@ -55,7 +55,7 @@ using System.Reflection;
 
 /// <summary>
 /// 1. Insert in `AppInstaller` project, all `CustomActionData` fields: `/xTargetDir="[TARGETDIR]\"`
-/// 2. Insert in `AppInstaller` project, shortcut UninstallYouApp actions `Arguments`: `/u={xxx}`
+/// 2. Insert in `AppInstaller` project, shortcut UninstallYouApp actions `Arguments` fields: `/u={xxx}`
 /// 3. Run `AssemblyInfo.tt` in you `MyApp` project
 /// 4. Add `AssemblyInfo1.cs` in you `MyApp` project, and remove old `AssemblyInfo.cs`
 /// 5. Build `MyApp` project

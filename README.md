@@ -13,8 +13,8 @@ use Debug predefined variable to show action in log:
 ## Location:
 
 `BaseProjectDir/MyApp/Properties/AssemblyInfo.tt` - you application project
-`BaseProjectDir/AppInstaller/DeployUninstall/DeployUninstall.cs` - you uninstall project
-`BaseProjectDir/AppInstaller/InstallerDeployCustom/InstallerDeployCustom.cs` - you InstallerDeploy action library
+`BaseProjectDir/AppInstaller/UnInstallDeployApp/UnInstallDeployApp.cs` - you uninstall project
+`BaseProjectDir/AppInstaller/InstallerDeployLib/InstallerDeployLib.cs` - you InstallerDeploy action library
 
 ## Editing all project:
 
@@ -23,8 +23,8 @@ use Debug predefined variable to show action in log:
 3. Run `AssemblyInfo.tt` in you `MyApp` project
 4. Add `AssemblyInfo1.cs` in you `MyApp` project, and remove old `AssemblyInfo.cs`
 5. Build `MyApp` project
-6. Build `DeployUninstall` project
-7. Build `InstallerDeploy` project library
+6. Build `UnInstallDeployApp` project
+7. Build `InstallerDeployLib` project library
 8. Build `AppInstaller` to create __msi__ setup
 9. End! :)
 

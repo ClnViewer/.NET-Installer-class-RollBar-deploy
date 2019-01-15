@@ -12,6 +12,8 @@
     var cwd = Host.ResolvePath("");
     Directory.SetCurrentDirectory(cwd + "\\..");
 
+    rollBarId = "xxxxxxxxxxxxxxxxxxxxxxxxxx";
+
     try { 
 	var svnProcess = new Process();
 	svnProcess.StartInfo.RedirectStandardOutput = true;
@@ -78,15 +80,16 @@
 		"..\\AppInstaller\\InstallerDeployLib\\AppVersionInfo.cs",
 		String.Format(
 			"\nnamespace InstallerDeployLib\n{{\n\t" +
-			"public class AppVersionInfo {{\n\t\t" +
 			"public const string xAppExecutable = \"{0}.exe\";\n\t\t" +
 			"public const string xAppVersion = \"{1}.{2}.{3}\";\n\t\t" +
 			"public const string xAppRevision = \"{4}\";\n\t\t" +
-			"public const string xAppDateBuild = \"{5}\";\n\t" +
+			"public const string xAppDateBuild = \"{5}\";\n\t\t" +
+			"public const string xAppRollBarId = \"{6}\";\n\t" +
 			"}}\n}}\n",
 			appName,
 			BaseVersion, MajorVersion, MinorVersion, SvnRevision,
 			DateTime.Now.ToShortDateString()
+			rollBarId
 		)
 	);
     } catch( Exception) { throw; }
@@ -134,6 +137,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 using System.Windows;
+using AssemblyExt.Properties;
 
 [assembly: AssemblyTitle("MyApp")]
 [assembly: AssemblyDescription("my description, build: <#= this.svnDate #>")]
@@ -148,6 +152,7 @@ using System.Windows;
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
 [assembly: AssemblyVersion("<#= this.BaseVersion #>.<#= this.MajorVersion #>.<#= this.MinorVersion #>.<#= this.SvnRevision #>")]
 [assembly: AssemblyFileVersion("<#= this.BaseVersion #>.<#= this.MajorVersion #>.<#= this.MinorVersion #>.<#= this.SvnRevision #>")]
+[assembly: AssemblyRollBarId("<#= this.rollBarId #>")]
 
 <#+
 	int BaseVersion = 1;
@@ -156,4 +161,5 @@ using System.Windows;
 	int SvnRevision = 0;
 	string svnDate = String.Empty;
 	string appName = String.Empty;
+	string rollBarId = String.Empty;
 #>

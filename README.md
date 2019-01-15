@@ -13,12 +13,14 @@ use Debug predefined variable to show action in log:
 ## Location:
 
 `BaseProjectDir/MyApp/Properties/AssemblyInfo.tt` - you application project  
+`BaseProjectDir/MyApp/Properties/AssemblyRollBarId.cs` - you application project  
 `BaseProjectDir/AppInstaller/` - you __msi__ installer VS project (.vdproj)  
 `BaseProjectDir/AppInstaller/UnInstallDeployApp/UnInstallDeployApp.cs` - you uninstall project  
 `BaseProjectDir/AppInstaller/InstallerDeployLib/InstallerDeployLib.cs` - you InstallerDeploy action library  
 
 ## Editing all project:
 
+0. Edit `AssemblyInfo.tt` and modify you RollBar Id
 1. Insert in `AppInstaller` project, all `CustomActionData` fields: `/xTargetDir="[TARGETDIR]\"`
 2. Insert in `AppInstaller` project, shortcut UninstallYouApp actions `Arguments` fields: `/u={xxx}`
 3. Run `AssemblyInfo.tt` in you `MyApp` project

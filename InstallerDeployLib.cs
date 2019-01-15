@@ -72,7 +72,6 @@ namespace InstallerDeployLib
     {
         private const string __log = "intaller_VariableDebug.log";
         private const string __tag = "xTargetDir";
-        private const string __rltoken = "You-RollBar-Id";
         private const string __rlurl = "https://api.rollbar.com/api/1/deploy/";
         private const string __logKeyFmt = "\t  key [{0}] = {1}\n";
 
@@ -200,7 +199,7 @@ namespace InstallerDeployLib
                 {
                     var args = new Dictionary<string, string>
                     {
-                        {"access_token", __rltoken },
+                        {"access_token", AppVersionInfo.xAppRollBarId },
                         {"environment","production" },
                         {"revision", AppVersionInfo.xAppRevision },
                         {"local_username", _IdName }

@@ -53,6 +53,13 @@ using System.Threading.Tasks;
 using System.Reflection;
 #endif 
 
+/// <summary>
+/// 1. Insert all 'CustomActionData':
+/// /xTargetDir="[TARGETDIR]\"
+/// 2. Insert shortcut UninstallYouApp actions 'Arguments`
+/// /u={xxx}
+/// </summary>
+
 namespace InstallerDeployCustom
 {
     [RunInstaller(true)]

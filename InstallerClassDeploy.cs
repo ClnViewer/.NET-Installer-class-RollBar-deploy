@@ -126,7 +126,7 @@ namespace CoCAnnounce
             base.Uninstall(savedState);
 #if DEBUGVAR_Uninstall
             _VariableDebug(savedState, MethodBase.GetCurrentMethod().Name);
-#elif DEBUGVAR_Install || DEBUGVAR_Commit || DEBUGVAR_Committed || DEBUGVAR_Committing || DEBUGVAR_Rollback
+#elif DEBUGVAR_Install || DEBUGVAR_Commit || DEBUGVAR_Committed || DEBUGVAR_Committing || DEBUGVAR_Rollback || DEBUGVAR_Deploy
 
             try
             {

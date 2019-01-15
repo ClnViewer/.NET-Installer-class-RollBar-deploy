@@ -53,10 +53,10 @@ using System.Threading.Tasks;
 using System.Reflection;
 #endif 
 
-namespace CoCAnnounce
+namespace InstallerDeployCustom
 {
     [RunInstaller(true)]
-    public partial class InstallerCoCAnnouncer : System.Configuration.Install.Installer
+    public partial class InstallerDeploy : System.Configuration.Install.Installer
     {
         private const string __log = "intaller_VariableDebug.log";
         private const string __exe = "YouExecutable.exe";
@@ -88,11 +88,12 @@ namespace CoCAnnounce
                 if (!String.IsNullOrWhiteSpace(name)) return name;
                 name = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
                 if (!String.IsNullOrWhiteSpace(name)) return name;
-                return AppVersionInfo.xAppVersion + " " + AppVersionInfo.xAppDateBuild;
+                name = String.Format("{0}-{1}", AppVersionInfo.xAppVersion, AppVersionInfo.xAppDateBuild);
+                return name;
             }
         }
 
-        public InstallerCoCAnnouncer() : base()
+        public InstallerDeploy() : base()
         {
             InitializeComponent();
 

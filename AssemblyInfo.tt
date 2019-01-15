@@ -1,0 +1,122 @@
+﻿<#@ template debug="false" hostspecific="true" compilerOptions="/langversion:6" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ output extension=".cs" #>
+
+<#
+    var cwd = Host.ResolvePath("");
+    Directory.SetCurrentDirectory(cwd + "\\..");
+
+    try { 
+	var svnProcess = new Process();
+	svnProcess.StartInfo.RedirectStandardOutput = true;
+	svnProcess.StartInfo.FileName = "svn.exe";
+	svnProcess.StartInfo.Arguments = "info";
+	svnProcess.StartInfo.UseShellExecute = false;
+	svnProcess.Start();
+
+	string svnResult = svnProcess.StandardOutput.ReadToEnd();
+	svnProcess.WaitForExit();
+
+	Regex patSvnRevision = new Regex("Last Changed Rev: (?<svnrev>\\d+)");
+	MatchCollection matchSvnRevision = patSvnRevision.Matches(svnResult);
+	SvnRevision = Convert.ToInt32(matchSvnRevision[0].Groups["svnrev"].Value);
+
+	Regex patSvnDate = new Regex("Last Changed Date: (?<svndate>.*)");
+	MatchCollection matchSvnDate = patSvnDate.Matches(svnResult);
+	svnDate     = matchSvnDate[0].Groups["svndate"].Value;
+	svnDate.TrimEnd(new char[] { ' ', '\t', '\r', '\n' });
+	svnDate = svnDate.Substring(0, (svnDate.Length - 1));
+
+    } catch( Exception ) {}
+	
+    try {
+	MinorVersion = (int)(DateTime.UtcNow - new DateTime(2019,1,1)).TotalDays;
+    } catch( Exception ) {}
+
+    try {
+	File.WriteAllText(
+		"..\\AppInstaller\\InstallerDeployCustom\\AppVersionInfo.cs",
+		String.Format(
+			"\nnamespace InstallerDeployCustom\n{{\n\t" +
+			"public class AppVersionInfo {{\n\t\t" +
+			"public const string xAppVersion = \"{0}.{1}.{2}\";\n\t\t" +
+			"public const string xAppRevision = \"{3}\";\n\t\t" +
+			"public const string xAppDateBuild = \"{4}\";\n\t" +
+			"}}\n}}\n",
+			BaseVersion, MajorVersion, MinorVersion, SvnRevision,
+			DateTime.Now.ToShortDateString()
+		)
+	);
+    } catch( Exception) { throw; }
+
+    try {
+	string sguid = Guid.NewGuid().ToString("D").ToUpper();
+	string src = File.ReadAllText("..\\AppInstaller\\AppInstaller.vdproj", Encoding.GetEncoding(1251));
+	File.WriteAllText("..\\AppInstaller\\AppInstaller.vdproj.bak", src, Encoding.GetEncoding(1251));
+
+	string regpat = "\"ProductVersion\"\\s+=\\s+\"8:(\\d+\\.\\d+\\.\\d+)\"";
+        src = Regex.Replace(src, regpat, match =>
+        {
+		return match.Result(
+			String.Format("\"ProductVersion\" = \"8:{0}.{1}.{2}\"", BaseVersion, MajorVersion, MinorVersion)
+		);
+        });
+	regpat = "\"ProductCode\"\\s+=\\s+\"8:{(\\S+)}\"";
+        src = Regex.Replace(src, regpat, match =>
+        {
+		return match.Result(
+			String.Format("\"ProductCode\" = \"8:{{{0}}}\"", sguid)
+		);
+        });
+	regpat = "\"Arguments\"\\s+=\\s+\"8:/u={(\\S+)}\"";
+        src = Regex.Replace(src, regpat, match =>
+        {
+		return match.Result(
+			String.Format("\"Arguments\" = \"8:/u={{{0}}}\"", sguid)
+		);
+        });
+	regpat = "\"PackageCode\"\\s+=\\s+\"8:{(\\S+)}\"";
+        src = Regex.Replace(src, regpat, match =>
+        {
+		return match.Result(
+			String.Format("\"PackageCode\" = \"8:{{{0}}}\"", Guid.NewGuid().ToString("D").ToUpper())
+		);
+        });
+
+       File.WriteAllText("..\\AppInstaller\\AppInstaller.vdproj", src, Encoding.GetEncoding(1251));
+       } catch( Exception) { throw; }
+	
+#>
+
+using System.Reflection;
+using System.Resources;
+using System.Runtime.InteropServices;
+using System.Windows;
+
+[assembly: AssemblyTitle("MyApp")]
+[assembly: AssemblyDescription("my description, build: <#= this.svnDate #>")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Im")]
+[assembly: AssemblyProduct("MyApp")]
+[assembly: AssemblyCopyright("Copyright © ...")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+[assembly: ComVisible(false)]
+//[assembly: NeutralResourcesLanguage("ru-RU", UltimateResourceFallbackLocation.Satellite)]
+[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
+[assembly: AssemblyVersion("<#= this.BaseVersion #>.<#= this.MajorVersion #>.<#= this.MinorVersion #>.<#= this.SvnRevision #>")]
+[assembly: AssemblyFileVersion("<#= this.BaseVersion #>.<#= this.MajorVersion #>.<#= this.MinorVersion #>.<#= this.SvnRevision #>")]
+
+<#+
+	int BaseVersion = 1;
+	int MajorVersion = 0;
+	int MinorVersion = 0;
+	int SvnRevision = 0;
+	string svnDate = String.Empty;
+#>

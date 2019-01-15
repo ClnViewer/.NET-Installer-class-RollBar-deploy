@@ -54,10 +54,15 @@ using System.Reflection;
 #endif 
 
 /// <summary>
-/// 1. Insert all 'CustomActionData':
-/// /xTargetDir="[TARGETDIR]\"
-/// 2. Insert shortcut UninstallYouApp actions 'Arguments`
-/// /u={xxx}
+/// 1. Insert in `AppInstaller` project, all `CustomActionData` fields: `/xTargetDir="[TARGETDIR]\"`
+/// 2. Insert in `AppInstaller` project, shortcut UninstallYouApp actions `Arguments`: `/u={xxx}`
+/// 3. Run `AssemblyInfo.tt` in you `MyApp` project
+/// 4. Add `AssemblyInfo1.cs` in you `MyApp` project, and remove old `AssemblyInfo.cs`
+/// 5. Build `MyApp` project
+/// 6. Build `DeployUninstall` project
+/// 7. Build `InstallerDeploy` project library
+/// 8. Build `AppInstaller` to create __msi__ setup
+/// 9. End! :)
 /// </summary>
 
 namespace InstallerDeployCustom

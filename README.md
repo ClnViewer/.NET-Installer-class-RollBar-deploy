@@ -13,10 +13,12 @@ use Debug predefined variable to show action in log:
 ## Location:
 
 `BaseProjectDir/MyApp/Properties/AssemblyInfo.tt` - you application project  
+`BaseProjectDir/MyApp/Properties/AssemblyInfo1.cs` - generated class to you application project  
 `BaseProjectDir/MyApp/Properties/AssemblyRollBarId.cs` - you application project  
 `BaseProjectDir/AppInstaller/` - you __msi__ installer VS project (.vdproj)  
 `BaseProjectDir/AppInstaller/UnInstallDeployApp/UnInstallDeployApp.cs` - you uninstall project  
 `BaseProjectDir/AppInstaller/InstallerDeployLib/InstallerDeployLib.cs` - you InstallerDeploy action library  
+`BaseProjectDir/AppInstaller/InstallerDeployLib/AppVersionInfo.cs` - generated class to InstallerDeploy library  
 
 ## Modifying all projects:
 

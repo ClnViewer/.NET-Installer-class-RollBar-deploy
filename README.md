@@ -18,9 +18,9 @@ use Debug predefined variable to show action in log:
 `BaseProjectDir/AppInstaller/UnInstallDeployApp/UnInstallDeployApp.cs` - you uninstall project  
 `BaseProjectDir/AppInstaller/InstallerDeployLib/InstallerDeployLib.cs` - you InstallerDeploy action library  
 
-## Editing all project:
+## Modifying all projects:
 
-1. Edit `AssemblyInfo.tt` and modify you RollBar Id and other assembly `MyApp` setings
+1. Edit `AssemblyInfo.tt` and modify you RollBar Id and other assembly `MyApp` settings
 2. Insert in `AppInstaller` project, all `CustomActionData` fields: `/xTargetDir="[TARGETDIR]\"`
 2. Insert in `AppInstaller` project, shortcut UninstallYouApp actions `Arguments` fields: `/u={xxx}`
 4. Run `AssemblyInfo.tt` in you `MyApp` project

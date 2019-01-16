@@ -80,6 +80,7 @@
 		"..\\AppInstaller\\InstallerDeployLib\\AppVersionInfo.cs",
 		String.Format(
 			"\nnamespace InstallerDeployLib\n{{\n\t" +
+			"public class AppVersionInfo {{\n\t\t" +
 			"public const string xAppExecutable = \"{0}.exe\";\n\t\t" +
 			"public const string xAppVersion = \"{1}.{2}.{3}\";\n\t\t" +
 			"public const string xAppRevision = \"{4}\";\n\t\t" +

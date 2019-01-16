@@ -20,16 +20,17 @@ use Debug predefined variable to show action in log:
 
 ## Editing all project:
 
-0. Edit `AssemblyInfo.tt` and modify you RollBar Id
-1. Insert in `AppInstaller` project, all `CustomActionData` fields: `/xTargetDir="[TARGETDIR]\"`
+1. Edit `AssemblyInfo.tt` and modify you RollBar Id and other assembly `MyApp` setings
+2. Insert in `AppInstaller` project, all `CustomActionData` fields: `/xTargetDir="[TARGETDIR]\"`
 2. Insert in `AppInstaller` project, shortcut UninstallYouApp actions `Arguments` fields: `/u={xxx}`
-3. Run `AssemblyInfo.tt` in you `MyApp` project
-4. Add `AssemblyInfo1.cs` in you `MyApp` project, and remove old `AssemblyInfo.cs`
-5. Build `MyApp` project
-6. Build `UnInstallDeployApp` project
-7. Build `InstallerDeployLib` project library
-8. Build `AppInstaller` to create __msi__ setup
-9. End! :)
+4. Run `AssemblyInfo.tt` in you `MyApp` project
+5. Add `AssemblyInfo1.cs` in you `MyApp` project, and remove old `AssemblyInfo.cs`
+6. Add `AppVersionInfo.cs` in you `InstallerDeployLib` project
+7. Build `MyApp` project
+8. Build `UnInstallDeployApp` project
+9. Build `InstallerDeployLib` project library
+10. Build `AppInstaller` to create __msi__ setup
+11. End! :)
 
 ## License
 
